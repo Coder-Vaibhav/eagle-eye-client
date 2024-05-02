@@ -47,7 +47,7 @@ export default function App() {
         setUpdateDisabled(false);
         setShowDetails(true); // Show details section if data is found
       } else {
-        alert('Name not found!');
+        alert('User not found!');
       }
     } catch (error) {
       console.error('Error fetching JSON:', error);
@@ -101,7 +101,6 @@ export default function App() {
         <h1 className="text-center text-warning">Dhan Algo Trading</h1>
 
         <div className="input-container">
-          <label htmlFor="nameInput">Enter Username:</label>
           <input
             id="nameInput"
             type="text"
