@@ -100,7 +100,7 @@ export default function App() {
       <div className="container mt-1 md-5">
         <h1 className="text-center text-warning md-3">Dhan Algo Trading</h1>
 
-        <div className="input-container">
+        <div className="input-container mt-3">
           <input
             id="nameInput"
             type="text"
