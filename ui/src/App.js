@@ -101,7 +101,7 @@ export default function App() {
         <h1 className="text-center text-warning">Dhan Algo Trading</h1>
 
         <div className="input-container">
-          <label htmlFor="nameInput">Enter Name:</label>
+          <label htmlFor="nameInput">Enter Username:</label>
           <input
             id="nameInput"
             type="text"
@@ -109,7 +109,7 @@ export default function App() {
             disabled={showDetails}
             onKeyPress={handleKeyPress}
             onChange={handleNameChange}
-            placeholder="Enter Name"
+            placeholder="Enter Username"
             className="form-control mb-3"
           />
           <button onClick={handleGetJson} disabled={showDetails} className="btn btn-primary mb-3">
@@ -206,7 +206,6 @@ export default function App() {
                   />
                 </div>
                 <div className="mb-3">
-                  <label>Active:</label>
                   <div className="form-check form-switch">
                     <input
                       type="checkbox"
