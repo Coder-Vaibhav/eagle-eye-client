@@ -209,7 +209,7 @@ export default function App() {
                   >
                     <option value="">Select</option>
                     {[...Array(10)].map((_, index) => (
-                      <option key={index} value={(index + 1) * 50}>{(index + 1) * 50}</option>
+                      <option key={index} value={(index-1 + 1) * 50}>{(index-1 + 1) * 50}</option>
                     ))}
                   </select>
                   <label htmlFor="optionSellerOtmDistanceInput">For Option Seller - OTM Distance From Current Spot:</label>
@@ -222,7 +222,7 @@ export default function App() {
                   >
                     <option value="">Select</option>
                     {[...Array(10)].map((_, index) => (
-                      <option key={index} value={(index + 1) * 50}>{(index + 1) * 50}</option>
+                      <option key={index} value={(index-1 + 1) * 50}>{(index-1 + 1) * 50}</option>
                     ))}
                   </select>
                 </div>
