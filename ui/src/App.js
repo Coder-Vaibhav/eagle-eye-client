@@ -137,7 +137,7 @@ export default function App() {
                   value={clientId}
                   onChange={(e) => setClientId(e.target.value)}
                   placeholder="Enter Client ID"
-                  className="form-control mb-3 text-warning"
+                  className="form-control mb-3 text-danger"
                 />
                 <label htmlFor="accessTokenInput">Dhan Access Token:</label>
                 <textarea
@@ -146,7 +146,7 @@ export default function App() {
                   onChange={(e) => setAccessToken(e.target.value)}
                   rows="4"
                   placeholder="Enter Access Token"
-                  className="form-control mb-3 text-warning"
+                  className="form-control mb-3 text-danger"
                 />
                 <div className="mb-3">
                   <label className="mb-0">Security:</label>
