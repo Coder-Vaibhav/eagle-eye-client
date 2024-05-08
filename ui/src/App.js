@@ -104,7 +104,7 @@ export default function App() {
       <CssBaseline />
       <RandomDots />
       <div className="container mt-1 md-5">
-        <h1 className="text-center text-info mb-3">Dhan Algo Trading</h1>
+        <h1 className="text-center text-info mb-4">Dhan Algo Trading</h1>
 
         <div className="input-container mt-3">
           <input
@@ -249,7 +249,7 @@ export default function App() {
                     <label htmlFor="activeSwitch" className="form-check-label">Engine Active</label>
                   </div>
                 </div>
-                <button onClick={handleUpdate} disabled={updateDisabled} className="btn btn-success my-5">Update</button>
+                <button onClick={handleUpdate} disabled={updateDisabled} className="btn btn-success my-4">Update</button>
               </div>
             </div>
           )}
