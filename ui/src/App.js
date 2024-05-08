@@ -208,7 +208,7 @@ export default function App() {
                     onChange={(e) => setOptionBuyerItmDistance(e.target.value)}
                   >
                     <option value="">Select</option>
-                    {[...Array(10)].map((_, index) => (
+                    {[...Array(11)].map((_, index) => (
                       <option key={index} value={(index-1 + 1) * 50}>{(index-1 + 1) * 50}</option>
                     ))}
                   </select>
@@ -221,7 +221,7 @@ export default function App() {
                     onChange={(e) => setOptionSellerOtmDistance(e.target.value)}
                   >
                     <option value="">Select</option>
-                    {[...Array(10)].map((_, index) => (
+                    {[...Array(11)].map((_, index) => (
                       <option key={index} value={(index-1 + 1) * 50}>{(index-1 + 1) * 50}</option>
                     ))}
                   </select>
