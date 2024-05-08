@@ -14,6 +14,7 @@ export const RandomDots = () => {
         const handleMouseMoveThrottled = _.throttle(handleMouseMove, 50); // Throttle mouse move event handling
         window.addEventListener('mousemove', handleMouseMoveThrottled);
         return () => window.removeEventListener('mousemove', handleMouseMoveThrottled);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const createDots = () => {
