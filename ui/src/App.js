@@ -104,7 +104,7 @@ export default function App() {
       <CssBaseline />
       <RandomDots />
       <div className="container mt-1 md-5">
-        <h1 className="text-center text-warning md-3">Dhan Algo Trading</h1>
+        <h1 className="text-center text-primary md-3">Dhan Algo Trading</h1>
 
         <div className="input-container mt-3">
           <input
@@ -122,7 +122,7 @@ export default function App() {
           </button>
 
           {showDetails && (
-            <div id="details" className="mt-3">
+            <div id="details" className="mt-4">
               <div className="mb-3">
                 <label htmlFor="clientIdInput">Dhan Client ID:</label>
                 <input
@@ -131,7 +131,7 @@ export default function App() {
                   value={clientId}
                   onChange={(e) => setClientId(e.target.value)}
                   placeholder="Enter Client ID"
-                  className="form-control mb-3"
+                  className="form-control mb-3 text-warning"
                 />
                 <label htmlFor="accessTokenInput">Dhan Access Token:</label>
                 <textarea
@@ -140,7 +140,7 @@ export default function App() {
                   onChange={(e) => setAccessToken(e.target.value)}
                   rows="4"
                   placeholder="Enter Access Token"
-                  className="form-control mb-3"
+                  className="form-control mb-3 text-warning"
                 />
                 <div className="mb-3">
                   <label className="mb-0">Security:</label>
@@ -173,6 +173,7 @@ export default function App() {
                       id="buyerRadio"
                       className="form-check-input"
                       value="b"
+                      disabled={!optionChecked}
                       checked={transactionMode === "b"}
                       onChange={() => setTransactionMode("b")}
                     />
@@ -184,6 +185,7 @@ export default function App() {
                       id="sellerRadio"
                       className="form-check-input"
                       value="s"
+                      disabled={!optionChecked}
                       checked={transactionMode === "s"}
                       onChange={() => setTransactionMode("s")}
                     />
@@ -191,11 +193,35 @@ export default function App() {
                   </div>
                 </div>
                 <div className="mb-3">
+                  <div className="form-check form-switch">
+                    <input
+                      type="checkbox"
+                      id="limitExitActiveSwitch"
+                      className="form-check-input"
+                      disabled={!optionChecked}
+                      checked={limitExitActive === 1}
+                      onChange={() => setLimitExitActive(limitExitActive === 1 ? 0 : 1)}
+                    />
+                    <label htmlFor="limitExitActiveSwitch" className="form-check-label">Can option limit exit?</label>
+                  </div>
+                  <label htmlFor="limitExitPointsInput">Option Limit Exit Points:</label>
+                  <input
+                    id="limitExitPointsInput"
+                    type="number"
+                    value={limitExitPoints}
+                    disabled={limitExitActive !== 1 || !optionChecked}
+                    onChange={(e) => setLimitExitPoints(e.target.value)}
+                    placeholder="Limit Exit Points"
+                    className="form-control mb-3"
+                  />
+                </div>
+                <div className="mb-3">
                   <label htmlFor="optQtyInput">Option Quantity:</label>
                   <input
                     id="optQtyInput"
                     type="number"
                     value={optQty}
+                    disabled={!optionChecked}
                     onChange={(e) => setOptQty(e.target.value)}
                     placeholder="Enter Option Quantity (Multiple of 25)"
                     className="form-control mb-3"
@@ -205,34 +231,13 @@ export default function App() {
                     id="futQtyInput"
                     type="number"
                     value={futQty}
+                    disabled={!futureChecked}
                     onChange={(e) => setFutQty(e.target.value)}
                     placeholder="Enter Future Quantity"
                     className="form-control mb-3"
                   />
                 </div>
-                <div className="mb-3">
-                  <div className="form-check form-switch">
-                    <input
-                      type="checkbox"
-                      id="limitExitActiveSwitch"
-                      className="form-check-input"
-                      checked={limitExitActive === 1}
-                      onChange={() => setLimitExitActive(limitExitActive === 1 ? 0 : 1)}
-                    />
-                    <label htmlFor="limitExitActiveSwitch" className="form-check-label">Can do limit exit?</label>
-                  </div>
-                  <label htmlFor="limitExitPointsInput">Limit Exit Points:</label>
-                  <input
-                    id="limitExitPointsInput"
-                    type="number"
-                    value={limitExitPoints}
-                    disabled={limitExitActive !== 1}
-                    onChange={(e) => setLimitExitPoints(e.target.value)}
-                    placeholder="Limit Exit Points"
-                    className="form-control mb-3"
-                  />
-                </div>
-                <div className="mb-3 mt-3">
+                <div className="mb-3 mt-5">
                   <div className="form-check form-switch">
                     <input
                       type="checkbox"
