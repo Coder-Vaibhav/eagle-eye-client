@@ -49,7 +49,7 @@ export default function App() {
         setUpdateDisabled(false);
         setShowDetails(true); // Show details section if data is found
         setLimitExitActive(configjson.CAN_DO_LIMIT_EXIT || "");
-        setLimitExitPoints(configjson.LIMIT_EXIT_POINTS || "");
+        setLimitExitPoints(configjson.LIMIT_EXIT_POINTS || 40);
       } else {
         alert('User not found!');
       }
@@ -221,15 +221,17 @@ export default function App() {
                     />
                     <label htmlFor="limitExitActiveSwitch" className="form-check-label">Can do limit exit?</label>
                   </div>
-                  <label htmlFor="limitExitPointsInput">Limit Exit Points:</label>
-                  <input
-                    id="limitExitPointsInput"
-                    type="number"
-                    value={limitExitPoints}
-                    onChange={(e) => setLimitExitPoints(e.target.value)}
-                    placeholder="Limit Exit Points"
-                    className="form-control mb-3"
-                  />
+                  {limitExitActive === 1 && (
+                    <label htmlFor="limitExitPointsInput">Limit Exit Points:</label>
+                    <input
+                      id="limitExitPointsInput"
+                      type="number"
+                      value={limitExitPoints}
+                      onChange={(e) => setLimitExitPoints(e.target.value)}
+                      placeholder="Limit Exit Points"
+                      className="form-control mb-3"
+                    />
+                  )}
                 </div>
                 <div className="mb-3">
                   <div className="form-check form-switch">
