@@ -25,6 +25,8 @@ export default function App() {
   const [active, setActive] = useState('');
   const [updateDisabled, setUpdateDisabled] = useState(true);
   const [showDetails, setShowDetails] = useState(false); // New state to control visibility of details section
+  const [limitExitActive, setLimitExitActive] = useState('');
+  const [limitExitPoints, setLimitExitPoints] = useState(40);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -46,6 +48,8 @@ export default function App() {
         setActive(configjson.ACTIVE || 0);
         setUpdateDisabled(false);
         setShowDetails(true); // Show details section if data is found
+        setLimitExitActive(configjson.CAN_DO_LIMIT_EXIT || "");
+        setLimitExitPoints(configjson.LIMIT_EXIT_POINTS || "");
       } else {
         alert('User not found!');
       }
@@ -76,6 +80,8 @@ export default function App() {
         OPT_QTY: parseInt(optQty),
         FUT_QTY: parseInt(futQty),
         OPTION_TRANSACTION_MODE: transactionMode,
+        CAN_DO_LIMIT_EXIT: limitExitActive,
+        LIMIT_EXIT_POINTS: limitExitPoints,
         ACTIVE: parseInt(active),
       };
       await axios.post(API_URL, { name, configjson: JSON.stringify(updatedConfig) });
@@ -201,6 +207,27 @@ export default function App() {
                     value={futQty}
                     onChange={(e) => setFutQty(e.target.value)}
                     placeholder="Enter Future Quantity"
+                    className="form-control mb-3"
+                  />
+                </div>
+                <div className="mb-3">
+                  <div className="form-check form-switch">
+                    <input
+                      type="checkbox"
+                      id="limitExitActiveSwitch"
+                      className="form-check-input"
+                      checked={limitExitActive === 1}
+                      onChange={() => setLimitExitActive(limitExitActive === 1 ? 0 : 1)}
+                    />
+                    <label htmlFor="limitExitActiveSwitch" className="form-check-label">Can do limit exit?</label>
+                  </div>
+                  <label htmlFor="limitExitPointsInput">Limit Exit Points:</label>
+                  <input
+                    id="limitExitPointsInput"
+                    type="number"
+                    value={limitExitPoints}
+                    onChange={(e) => setLimitExitPoints(e.target.value)}
+                    placeholder="Limit Exit Points"
                     className="form-control mb-3"
                   />
                 </div>
