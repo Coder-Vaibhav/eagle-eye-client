@@ -122,7 +122,7 @@ export default function App() {
           </button>
 
           {showDetails && (
-            <div id="details">
+            <div id="details" className="mt-3">
               <div className="mb-3">
                 <label htmlFor="clientIdInput">Dhan Client ID:</label>
                 <input
@@ -232,7 +232,7 @@ export default function App() {
                     className="form-control mb-3"
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mb-3 mt-3">
                   <div className="form-check form-switch">
                     <input
                       type="checkbox"
