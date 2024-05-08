@@ -110,7 +110,7 @@ export default function App() {
       <CssBaseline />
       <RandomDots />
       <div className="container mt-1 md-5">
-        <h1 className="text-center text-info mb-4">Dhan Algo Trading</h1>
+        <h1 className="text-center text-info mb-4">Eagle Algo Trading</h1>
 
         <div className="input-container mt-3">
           <input
@@ -129,166 +129,181 @@ export default function App() {
 
           {showDetails && (
             <div id="details" className="mt-4">
-              <div className="mb-3">
-                <label htmlFor="clientIdInput">Dhan Client ID:</label>
-                <input
-                  id="clientIdInput"
-                  type="text"
-                  value={clientId}
-                  onChange={(e) => setClientId(e.target.value)}
-                  placeholder="Enter Client ID"
-                  className="form-control mb-3 text-danger"
-                />
-                <label htmlFor="accessTokenInput">Dhan Access Token:</label>
-                <textarea
-                  id="accessTokenInput"
-                  value={accessToken}
-                  onChange={(e) => setAccessToken(e.target.value)}
-                  rows="4"
-                  placeholder="Enter Access Token"
-                  className="form-control mb-3 text-danger"
-                />
-                <div className="mb-3">
-                  <label className="mb-0">Security:</label>
-                  <div className="form-check form-check-inline">
-                    <input
-                      type="checkbox"
-                      id="optionCheckbox"
-                      className="form-check-input"
-                      checked={optionChecked}
-                      onChange={() => setOptionChecked(!optionChecked)}
-                    />
-                    <label htmlFor="optionCheckbox" className="form-check-label">Option</label>
-                  </div>
-                  <div className="form-check form-check-inline">
-                    <input
-                      type="checkbox"
-                      id="futureCheckbox"
-                      className="form-check-input"
-                      checked={futureChecked}
-                      onChange={() => setFutureChecked(!futureChecked)}
-                    />
-                    <label htmlFor="futureCheckbox" className="form-check-label">Future</label>
-                  </div>
+              <div className="card">
+                <div className="card-header">
+                  Dhan Details
                 </div>
-                <div className="mb-3">
-                  <label>Option Transaction Mode:</label>
-                  <div className="form-check form-check-inline">
-                    <input
-                      type="radio"
-                      id="buyerRadio"
-                      className="form-check-input"
-                      value="b"
-                      disabled={!optionChecked}
-                      checked={transactionMode === "b"}
-                      onChange={() => setTransactionMode("b")}
-                    />
-                    <label htmlFor="buyerRadio" className="form-check-label">Buyer</label>
-                  </div>
-                  <div className="form-check form-check-inline">
-                    <input
-                      type="radio"
-                      id="sellerRadio"
-                      className="form-check-input"
-                      value="s"
-                      disabled={!optionChecked}
-                      checked={transactionMode === "s"}
-                      onChange={() => setTransactionMode("s")}
-                    />
-                    <label htmlFor="sellerRadio" className="form-check-label">Seller</label>
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="optionBuyerItmDistanceInput">For Option Buyer - ITM Distance From Current Spot:</label>
-                  <select
-                    className="form-control mb-3"
-                    id="optionBuyerItmDistanceInput"
-                    disabled={!optionChecked || transactionMode === "s"}
-                    value={optionBuyerItmDistance}
-                    onChange={(e) => setOptionBuyerItmDistance(e.target.value)}
-                  >
-                    <option value="">Select</option>
-                    {[...Array(11)].map((_, index) => (
-                      <option key={index} value={(index-1 + 1) * 50}>{(index-1 + 1) * 50}</option>
-                    ))}
-                  </select>
-                  <label htmlFor="optionSellerOtmDistanceInput">For Option Seller - OTM Distance From Current Spot:</label>
-                  <select
-                    className="form-control mb-3"
-                    id="optionSellerOtmDistanceInput"
-                    disabled={!optionChecked || transactionMode === "b"}
-                    value={optionSellerOtmDistance}
-                    onChange={(e) => setOptionSellerOtmDistance(e.target.value)}
-                  >
-                    <option value="">Select</option>
-                    {[...Array(11)].map((_, index) => (
-                      <option key={index} value={(index-1 + 1) * 50}>{(index-1 + 1) * 50}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mb-3">
-                  <div className="form-check form-switch">
-                    <input
-                      type="checkbox"
-                      id="limitExitActiveSwitch"
-                      className="form-check-input"
-                      disabled={!optionChecked}
-                      checked={limitExitActive === 1}
-                      onChange={() => setLimitExitActive(limitExitActive === 1 ? 0 : 1)}
-                    />
-                    <label htmlFor="limitExitActiveSwitch" className="form-check-label">Can option limit exit?</label>
-                  </div>
-                  <label htmlFor="limitExitPointsInput">Option Limit Exit Points:</label>
+                <div className="card-body">
+                  <label htmlFor="clientIdInput">Client ID:</label>
                   <input
-                    id="limitExitPointsInput"
-                    type="number"
-                    value={limitExitPoints}
-                    disabled={limitExitActive !== 1 || !optionChecked}
-                    onChange={(e) => setLimitExitPoints(e.target.value)}
-                    placeholder="Limit Exit Points"
-                    className="form-control mb-3"
+                    id="clientIdInput"
+                    type="text"
+                    value={clientId}
+                    onChange={(e) => setClientId(e.target.value)}
+                    placeholder="Enter Client ID"
+                    className="form-control mb-3 text-danger"
+                  />
+                  <label htmlFor="accessTokenInput">Access Token:</label>
+                  <textarea
+                    id="accessTokenInput"
+                    value={accessToken}
+                    onChange={(e) => setAccessToken(e.target.value)}
+                    rows="4"
+                    placeholder="Enter Access Token"
+                    className="form-control mb-3 text-danger"
                   />
                 </div>
-                <div className="mb-3">
-                  <label htmlFor="optQtyInput">Option Quantity:</label>
-                  <input
-                    id="optQtyInput"
-                    type="number"
-                    value={optQty}
-                    disabled={!optionChecked}
-                    onChange={(e) => setOptQty(e.target.value)}
-                    placeholder="Enter Option Quantity (Multiple of 25)"
-                    className="form-control mb-3"
-                  />
-                  <label htmlFor="futQtyInput">Future Quantity:</label>
-                  <input
-                    id="futQtyInput"
-                    type="number"
-                    value={futQty}
-                    disabled={!futureChecked}
-                    onChange={(e) => setFutQty(e.target.value)}
-                    placeholder="Enter Future Quantity"
-                    className="form-control mb-3"
-                  />
-                </div>
-                <div className="mb-3">
-                  <div className="form-check form-switch">
-                    <input
-                      type="checkbox"
-                      id="activeSwitch"
-                      className="form-check-input"
-                      checked={active === 1}
-                      onChange={() => setActive(active === 1 ? 0 : 1)}
-                    />
-                    <label htmlFor="activeSwitch" className="form-check-label">Engine Active</label>
-                  </div>
-                </div>
-                <button onClick={handleUpdate} disabled={updateDisabled} className="btn btn-success my-4">Update</button>
               </div>
+              
+              <div className="mb-3">
+                <label className="mb-0">Security:</label>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="checkbox"
+                    id="optionCheckbox"
+                    className="form-check-input"
+                    checked={optionChecked}
+                    onChange={() => setOptionChecked(!optionChecked)}
+                  />
+                  <label htmlFor="optionCheckbox" className="form-check-label">Option</label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="checkbox"
+                    id="futureCheckbox"
+                    className="form-check-input"
+                    checked={futureChecked}
+                    onChange={() => setFutureChecked(!futureChecked)}
+                  />
+                  <label htmlFor="futureCheckbox" className="form-check-label">Future</label>
+                </div>
+              </div>
+              <div className="mb-3">
+                <label>Option Transaction Mode:</label>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    id="buyerRadio"
+                    className="form-check-input"
+                    value="b"
+                    disabled={!optionChecked}
+                    checked={transactionMode === "b"}
+                    onChange={() => setTransactionMode("b")}
+                  />
+                  <label htmlFor="buyerRadio" className="form-check-label">Buyer</label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="radio"
+                    id="sellerRadio"
+                    className="form-check-input"
+                    value="s"
+                    disabled={!optionChecked}
+                    checked={transactionMode === "s"}
+                    onChange={() => setTransactionMode("s")}
+                  />
+                  <label htmlFor="sellerRadio" className="form-check-label">Seller</label>
+                </div>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="optionBuyerItmDistanceInput">For Option Buyer - ITM Distance From Current Spot:</label>
+                <select
+                  className="form-control mb-3"
+                  id="optionBuyerItmDistanceInput"
+                  disabled={!optionChecked || transactionMode === "s"}
+                  value={optionBuyerItmDistance}
+                  onChange={(e) => setOptionBuyerItmDistance(e.target.value)}
+                >
+                  <option value="">Select</option>
+                  {[...Array(11)].map((_, index) => (
+                    <option key={index} value={(index-1 + 1) * 50}>{(index-1 + 1) * 50}</option>
+                  ))}
+                </select>
+                <label htmlFor="optionSellerOtmDistanceInput">For Option Seller - OTM Distance From Current Spot:</label>
+                <select
+                  className="form-control mb-3"
+                  id="optionSellerOtmDistanceInput"
+                  disabled={!optionChecked || transactionMode === "b"}
+                  value={optionSellerOtmDistance}
+                  onChange={(e) => setOptionSellerOtmDistance(e.target.value)}
+                >
+                  <option value="">Select</option>
+                  {[...Array(11)].map((_, index) => (
+                    <option key={index} value={(index-1 + 1) * 50}>{(index-1 + 1) * 50}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-3">
+                <div className="form-check form-switch">
+                  <input
+                    type="checkbox"
+                    id="limitExitActiveSwitch"
+                    className="form-check-input"
+                    disabled={!optionChecked}
+                    checked={limitExitActive === 1}
+                    onChange={() => setLimitExitActive(limitExitActive === 1 ? 0 : 1)}
+                  />
+                  <label htmlFor="limitExitActiveSwitch" className="form-check-label">Can option limit exit?</label>
+                </div>
+                <label htmlFor="limitExitPointsInput">Option Limit Exit Points:</label>
+                <input
+                  id="limitExitPointsInput"
+                  type="number"
+                  value={limitExitPoints}
+                  disabled={limitExitActive !== 1 || !optionChecked}
+                  onChange={(e) => setLimitExitPoints(e.target.value)}
+                  placeholder="Limit Exit Points"
+                  className="form-control mb-3"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="optQtyInput">Option Quantity:</label>
+                <input
+                  id="optQtyInput"
+                  type="number"
+                  value={optQty}
+                  disabled={!optionChecked}
+                  onChange={(e) => setOptQty(e.target.value)}
+                  placeholder="Enter Option Quantity (Multiple of 25)"
+                  className="form-control mb-3"
+                />
+                <label htmlFor="futQtyInput">Future Quantity:</label>
+                <input
+                  id="futQtyInput"
+                  type="number"
+                  value={futQty}
+                  disabled={!futureChecked}
+                  onChange={(e) => setFutQty(e.target.value)}
+                  placeholder="Enter Future Quantity"
+                  className="form-control mb-3"
+                />
+              </div>
+              <div className="mb-3">
+                <div className="form-check form-switch">
+                  <input
+                    type="checkbox"
+                    id="activeSwitch"
+                    className="form-check-input"
+                    checked={active === 1}
+                    onChange={() => setActive(active === 1 ? 0 : 1)}
+                  />
+                  <label htmlFor="activeSwitch" className="form-check-label">Engine Active</label>
+                </div>
+              </div>
+              <button onClick={handleUpdate} disabled={updateDisabled} className="btn btn-success my-4">Update</button>
             </div>
           )}
         </div>
       </div>
+
+      <footer className="footer mt-4">
+        <div className="container text-center">
+          <p className="text-muted">
+            &copy; 2024 Eagle Eye. All rights reserved. | Developed by Vaibhav D. Raut.
+          </p>
+        </div>
+      </footer>
+
 
     </ThemeProvider>
   );
