@@ -104,7 +104,7 @@ export default function App() {
       <CssBaseline />
       <RandomDots />
       <div className="container mt-1 md-5">
-        <h1 className="text-center text-info md-3">Dhan Algo Trading</h1>
+        <h1 className="text-center text-info mb-3">Dhan Algo Trading</h1>
 
         <div className="input-container mt-3">
           <input
