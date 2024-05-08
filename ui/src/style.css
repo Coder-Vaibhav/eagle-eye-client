@@ -43,15 +43,6 @@ body {
   border-radius: 5px;
 }
 
-.input-container button {
-  padding: 8px 15px;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-}
-
 .json-container label {
   display: block;
   margin-bottom: 5px;
@@ -65,7 +56,3 @@ body {
   border-radius: 5px;
 }
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
