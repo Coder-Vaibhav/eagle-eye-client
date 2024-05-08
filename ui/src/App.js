@@ -27,6 +27,8 @@ export default function App() {
   const [showDetails, setShowDetails] = useState(false); // New state to control visibility of details section
   const [limitExitActive, setLimitExitActive] = useState(0);
   const [limitExitPoints, setLimitExitPoints] = useState(40);
+  const [optionBuyerItmDistance, setOptionBuyerItmDistance] = useState(0);
+  const [optionSellerOtmDistance, setOptionSellerOtmDistance] = useState(0);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -50,6 +52,8 @@ export default function App() {
         setShowDetails(true); // Show details section if data is found
         setLimitExitActive(configjson.CAN_DO_LIMIT_EXIT || 0);
         setLimitExitPoints(configjson.LIMIT_EXIT_POINTS || 40);
+        setOptionBuyerItmDistance(configjson.OPTION_BUYER_ITM_DISTANCE || 0);
+        setOptionSellerOtmDistance(configjson.OPTION_SELLER_OTM_DISTANCE || 0);
       } else {
         alert('User not found!');
       }
@@ -82,6 +86,8 @@ export default function App() {
         OPTION_TRANSACTION_MODE: transactionMode,
         CAN_DO_LIMIT_EXIT: parseInt(limitExitActive),
         LIMIT_EXIT_POINTS: parseInt(limitExitPoints),
+        OPTION_BUYER_ITM_DISTANCE: parseInt(optionBuyerItmDistance),
+        OPTION_SELLER_OTM_DISTANCE: parseInt(optionSellerOtmDistance),
         ACTIVE: parseInt(active),
       };
       await axios.post(API_URL, { name, configjson: JSON.stringify(updatedConfig) });
@@ -191,6 +197,34 @@ export default function App() {
                     />
                     <label htmlFor="sellerRadio" className="form-check-label">Seller</label>
                   </div>
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="optionBuyerItmDistanceInput">For Option Buyer - ITM Distance From Current Spot:</label>
+                  <select
+                    className="form-control mb-3"
+                    id="optionBuyerItmDistanceInput"
+                    disabled={!optionChecked || transactionMode === "s"}
+                    value={optionBuyerItmDistance}
+                    onChange={(e) => setOptionBuyerItmDistance(e.target.value)}
+                  >
+                    <option value="">Select</option>
+                    {[...Array(10)].map((_, index) => (
+                      <option key={index} value={(index + 1) * 50}>{(index + 1) * 50}</option>
+                    ))}
+                  </select>
+                  <label htmlFor="optionSellerOtmDistanceInput">For Option Seller - OTM Distance From Current Spot:</label>
+                  <select
+                    className="form-control mb-3"
+                    id="optionSellerOtmDistanceInput"
+                    disabled={!optionChecked || transactionMode === "b"}
+                    value={optionSellerOtmDistance}
+                    onChange={(e) => setOptionSellerOtmDistance(e.target.value)}
+                  >
+                    <option value="">Select</option>
+                    {[...Array(10)].map((_, index) => (
+                      <option key={index} value={(index + 1) * 50}>{(index + 1) * 50}</option>
+                    ))}
+                  </select>
                 </div>
                 <div className="mb-3">
                   <div className="form-check form-switch">
