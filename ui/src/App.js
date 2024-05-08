@@ -108,7 +108,7 @@ export default function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <RandomDots />
+      //<RandomDots />
       <div className="container mt-1 md-5">
         <h1 className="text-center text-info mb-4">Eagle Algo Trading</h1>
 
@@ -129,7 +129,7 @@ export default function App() {
 
           {showDetails && (
             <div id="details" className="mt-4">
-              <div className="card">
+              <div className="card mb-3">
                 <div className="card-header">
                   Dhan Details
                 </div>
@@ -296,13 +296,14 @@ export default function App() {
         </div>
       </div>
 
-      <footer className="footer mt-4">
+    
+     /*<footer className="footer mt-4">
         <div className="container text-center">
           <p className="text-muted">
             &copy; 2024 Eagle Eye. All rights reserved. | Developed by Vaibhav D. Raut.
           </p>
         </div>
-      </footer>
+      </footer>*/
 
 
     </ThemeProvider>
