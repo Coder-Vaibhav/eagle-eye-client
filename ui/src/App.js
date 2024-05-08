@@ -240,7 +240,7 @@ export default function App() {
                       checked={active === 1}
                       onChange={() => setActive(active === 1 ? 0 : 1)}
                     />
-                    <label htmlFor="activeSwitch" className="form-check-label">Active</label>
+                    <label htmlFor="activeSwitch" className="form-check-label">Engine Active</label>
                   </div>
                 </div>
                 <button onClick={handleUpdate} disabled={updateDisabled} className="btn btn-primary mb-3">Update</button>
