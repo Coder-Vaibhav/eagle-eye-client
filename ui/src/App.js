@@ -271,7 +271,7 @@ export default function App() {
                     </div>
                   )}
                   
-                  <div className="input-group my-3">
+                  <div className="input-group mt-3">
                     <span className="input-group-text bg-secondary">
                       <div className="form-check form-switch">
                         <input
