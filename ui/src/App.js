@@ -104,7 +104,7 @@ export default function App() {
       <CssBaseline />
       <RandomDots />
       <div className="container mt-1 md-5">
-        <h1 className="text-center text-primary md-3">Dhan Algo Trading</h1>
+        <h1 className="text-center text-info md-3">Dhan Algo Trading</h1>
 
         <div className="input-container mt-3">
           <input
@@ -117,7 +117,7 @@ export default function App() {
             placeholder="Enter Username"
             className="form-control mb-3"
           />
-          <button onClick={handleGetJson} disabled={showDetails} className="btn btn-primary mb-3">
+          <button onClick={handleGetJson} disabled={showDetails} className="btn btn-success mb-3">
             Get Details
           </button>
 
@@ -237,7 +237,7 @@ export default function App() {
                     className="form-control mb-3"
                   />
                 </div>
-                <div className="mb-3 mt-5">
+                <div className="mb-3">
                   <div className="form-check form-switch">
                     <input
                       type="checkbox"
@@ -249,7 +249,7 @@ export default function App() {
                     <label htmlFor="activeSwitch" className="form-check-label">Engine Active</label>
                   </div>
                 </div>
-                <button onClick={handleUpdate} disabled={updateDisabled} className="btn btn-primary mb-3">Update</button>
+                <button onClick={handleUpdate} disabled={updateDisabled} className="btn btn-success my-5">Update</button>
               </div>
             </div>
           )}
