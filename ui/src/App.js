@@ -109,9 +109,14 @@ export default function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       {/* <RandomDots /> */}
-        <h1 className="text-center text-info bg-dark py-1">Eagle Eye Algo</h1>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center">
+        <a className="navbar-brand brand-name font-effect-fire" href="/">
+          Eagle Eye Algo
+        </a>
+      </nav>
+
       <div className="container mb-5 mt-3">
-        <div class="form-floating mb-3">
+        <div className="form-floating mb-3">
           <input
             id="nameInput"
             type="text"
@@ -121,7 +126,7 @@ export default function App() {
             onChange={handleNameChange}
             className="form-control"
           />
-          <label for="nameInput">Username</label>
+          <label htmlFor="nameInput">Username</label>
         </div>
         <button onClick={handleGetJson} disabled={showDetails} className="btn btn-outline-success">
           Get Details
@@ -134,7 +139,7 @@ export default function App() {
                 Dhan Account Details
               </div>
               <div className="card-body">
-                <div class="form-floating mb-3">
+                <div className="form-floating mb-3">
                   <input
                     id="clientIdInput"
                     type="text"
@@ -143,9 +148,9 @@ export default function App() {
                     placeholder="Enter Client ID"
                     className="form-control text-danger"
                   />
-                  <label for="clientIdInput">Client ID</label>
+                  <label htmlFor="clientIdInput">Client ID</label>
                 </div>
-                <div class="form-floating">
+                <div className="form-floating">
                   <textarea
                     id="accessTokenInput"
                     value={accessToken}
@@ -154,7 +159,7 @@ export default function App() {
                     placeholder="Enter Access Token"
                     className="form-control text-danger"
                   />
-                  <label for="accessTokenInput">Access Token</label>
+                  <label htmlFor="accessTokenInput">Access Token</label>
                 </div>
               </div>
             </div>
@@ -172,7 +177,7 @@ export default function App() {
                     checked={optionChecked}
                     onChange={() => setOptionChecked(!optionChecked)}
                   />
-                  <label for="optionCheckbox" className="form-check-label">Option</label>
+                  <label htmlFor="optionCheckbox" className="form-check-label">Option</label>
                 </div>
                 <div className="form-check form-check-inline">
                   <input
@@ -182,7 +187,7 @@ export default function App() {
                     checked={futureChecked}
                     onChange={() => setFutureChecked(!futureChecked)}
                   />
-                  <label for="futureCheckbox" className="form-check-label">Future</label>
+                  <label htmlFor="futureCheckbox" className="form-check-label">Future</label>
                 </div>
               </div>
             </div>
@@ -193,7 +198,7 @@ export default function App() {
                   Option Security Details
                 </div>
                 <div className="card-body">
-                  <div class="form-floating">
+                  <div className="form-floating">
                     <input
                       id="optQtyInput"
                       type="number"
@@ -203,14 +208,14 @@ export default function App() {
                       placeholder="Enter Option Quantity (Multiple of 25)"
                       className="form-control "
                     />
-                    <label for="optQtyInput">Quantity</label>
+                    <label htmlFor="optQtyInput">Quantity</label>
                   </div>
 
                   <div className="card my-3">
-                    <div className="card-header">
+                    <div className="card-header small">
                       Transaction Mode
                     </div>
-                    <div className="card-body">
+                    <div className="card-body p-2">
                       <div className="form-check form-check-inline">
                         <input
                           type="radio"
@@ -221,7 +226,7 @@ export default function App() {
                           checked={transactionMode === "b"}
                           onChange={() => setTransactionMode("b")}
                         />
-                        <label for="buyerRadio" className="form-check-label">Buyer</label>
+                        <label htmlFor="buyerRadio" className="form-check-label">Buyer</label>
                       </div>
                       <div className="form-check form-check-inline">
                         <input
@@ -233,40 +238,42 @@ export default function App() {
                           checked={transactionMode === "s"}
                           onChange={() => setTransactionMode("s")}
                         />
-                        <label for="sellerRadio" className="form-check-label">Seller</label>
+                        <label htmlFor="sellerRadio" className="form-check-label">Seller</label>
                       </div>
                     </div>
                   </div>
 
                   {transactionMode === "b" && (
-                    <div className="form-floating">
-                      <select className="form-select" id="optionBuyerItmDistanceInput" 
+                    <>
+                      <label htmlFor="optionBuyerItmDistanceInput" className="form-label mb-0 small">ITM Distance From Current Spot: <span className="fw-bold">{optionBuyerItmDistance} Points</span></label>
+                      <input 
+                        type="range" 
+                        className="form-range" 
+                        min="-350" 
                         disabled={!optionChecked || transactionMode === "s"}
+                        max="350" 
+                        step="50" 
+                        id="optionBuyerItmDistanceInput" 
                         value={optionBuyerItmDistance}
                         onChange={(e) => setOptionBuyerItmDistance(e.target.value)}
-                      >
-                        {[...Array(17)].map((_, index) => (
-                          <option key={index} value={(index-9 + 1) * 50} selected={index === 8}>{(index-9 + 1) * 50}</option>
-                        ))}
-                      </select>
-                      <label for="optionBuyerItmDistanceInput">ITM Distance From Current Spot</label>
-                    </div>
+                        />
+                    </>
                   )}
                   {transactionMode === "s" && (
-                    <div className="form-floating">
-                      <select
-                        className="form-select"
-                        id="optionSellerOtmDistanceInput"
+                    <>
+                      <label htmlFor="optionSellerOtmDistanceInput" className="form-label mb-0 small">OTM Distance From Current Spot: <span className="fw-bold">{optionSellerOtmDistance} Points</span></label>
+                      <input 
+                        type="range" 
+                        className="form-range" 
+                        min="-350" 
                         disabled={!optionChecked || transactionMode === "b"}
+                        max="350" 
+                        step="50" 
+                        id="optionSellerOtmDistanceInput" 
                         value={optionSellerOtmDistance}
                         onChange={(e) => setOptionSellerOtmDistance(e.target.value)}
-                      >
-                        {[...Array(17)].map((_, index) => (
-                          <option key={index} value={(index-9 + 1) * 50} selected={index === 8}>{(index-9 + 1) * 50}</option>
-                        ))}
-                      </select>
-                      <label for="optionSellerOtmDistanceInput">OTM Distance From Current Spot</label>
-                    </div>
+                        />
+                    </>
                   )}
                   
                   <div className="input-group mt-3">
@@ -292,7 +299,7 @@ export default function App() {
                         placeholder="Limit Exit Points"
                         className="form-control "
                       />
-                      <label for="limitExitPointsInput">Limit Exit Points</label>
+                      <label htmlFor="limitExitPointsInput">Limit Exit Points</label>
                     </div>
                   </div>
                 </div>
@@ -315,7 +322,7 @@ export default function App() {
                       placeholder="Enter Future Quantity"
                       className="form-control "
                     />
-                    <label for="futQtyInput">Quantity</label>
+                    <label htmlFor="futQtyInput">Quantity</label>
                   </div>
                 </div>
               </div>
@@ -329,15 +336,15 @@ export default function App() {
                 checked={active === 1}
                 onChange={() => setActive(active === 1 ? 0 : 1)}
               />
-              <label for="activeSwitch" className="form-check-label text-warning fw-bold">Trading Engine</label>
+              <label htmlFor="activeSwitch" className="form-check-label text-warning fw-bold">Trading Engine</label>
             </div>
             <button onClick={handleUpdate} disabled={updateDisabled} className="btn btn-success btn-lg mt-4 mb-5">Update</button>
           </div>
         )}
       </div>
 
-      <footer class="footer bg-dark text-center">
-        <span class="text-white">Copyright &copy; 2024 Eagle Eye Algo <br/>Developed with ❤️ by Vaibhav D. Raut.</span>
+      <footer className="footer bg-dark text-center">
+        <span className="text-white small">Copyright &copy; 2024 Eagle Eye Algo <br/>Developed with ❤️ by Vaibhav D. Raut.</span>
       </footer>
       
     </ThemeProvider>
