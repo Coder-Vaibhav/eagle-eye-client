@@ -245,9 +245,8 @@ export default function App() {
                         value={optionBuyerItmDistance}
                         onChange={(e) => setOptionBuyerItmDistance(e.target.value)}
                       >
-                        <option value="" selected>Select</option>
-                        {[...Array(11)].map((_, index) => (
-                          <option key={index} value={(index-1 + 1) * 50}>{(index-1 + 1) * 50}</option>
+                        {[...Array(17)].map((_, index) => (
+                          <option key={index} value={(index-9 + 1) * 50} selected={index === 8}>{(index-9 + 1) * 50}</option>
                         ))}
                       </select>
                       <label for="optionBuyerItmDistanceInput">ITM Distance From Current Spot</label>
@@ -262,9 +261,8 @@ export default function App() {
                         value={optionSellerOtmDistance}
                         onChange={(e) => setOptionSellerOtmDistance(e.target.value)}
                       >
-                        <option value="">Select</option>
-                        {[...Array(11)].map((_, index) => (
-                          <option key={index} value={(index-1 + 1) * 50}>{(index-1 + 1) * 50}</option>
+                        {[...Array(17)].map((_, index) => (
+                          <option key={index} value={(index-9 + 1) * 50} selected={index === 8}>{(index-9 + 1) * 50}</option>
                         ))}
                       </select>
                       <label for="optionSellerOtmDistanceInput">OTM Distance From Current Spot</label>
