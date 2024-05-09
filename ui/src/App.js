@@ -109,7 +109,7 @@ export default function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       {/* <RandomDots /> */}
-        <h1 className="text-center text-info bg-dark py-1">Eagle Algo Trading</h1>
+        <h1 className="text-center text-info bg-dark py-1">Eagle Eye Algo</h1>
       <div className="container mb-5 mt-3">
         <div class="form-floating mb-3">
           <input
@@ -339,7 +339,7 @@ export default function App() {
       </div>
 
       <footer class="footer bg-dark text-center">
-        <span class="text-white">Copyright &copy; 2024 Eagle Algo Trading <br></br>Developed with ❤️ by Vaibhav D. Raut.</span>
+        <span class="text-white">Copyright &copy; 2024 Eagle Eye Algo <br/>Developed with ❤️ by Vaibhav D. Raut.</span>
       </footer>
       
     </ThemeProvider>
