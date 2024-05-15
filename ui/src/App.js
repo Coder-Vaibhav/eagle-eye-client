@@ -392,13 +392,13 @@ export default function App() {
               </div>
               <div className="card-body">
                 <div className="form-floating">
-                  <div class="mb-2">
-                    <label class="form-label">Minimum amount:</label>
-                    <span class="text-muted">{getMinAmount()}</span>
+                  <div className="mb-2">
+                    <label className="form-label">Minimum amount: </label>
+                    <span className="fw-bold">{getMinAmount()}</span>
                   </div>
-                  <div>
-                    <label class="form-label">Maximum amount:</label>
-                    <span class="text-muted">{getMaxAmount()}</span>
+                  <div className="mb-0">
+                    <label className="form-label">Maximum amount: </label>
+                    <span className="fw-bold">{getMaxAmount()}</span>
                   </div>
                 </div>
               </div>
