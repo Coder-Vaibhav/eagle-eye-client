@@ -111,8 +111,8 @@ export default function App() {
     let minAmount = 0;
     let optMinAmount = 0;
     let futMinAmount = 0;
-    let optQuantity = parseInt(optQty) / 25;
-    let futQuantity = parseInt(futQty) / 25;
+    let optQuantity = parseInt(optQty || 0) / 25;
+    let futQuantity = parseInt(futQty || 0) / 25;
     let oneOptLotPrice = 7500;
     let oneFutLotPrice = 65000;
     if(transactionMode === "s"){
@@ -132,8 +132,8 @@ export default function App() {
     let optMaxDraForOneLot = 23000;
     let optMaxDraChangePerLot = 16000;
     let futMaxDraForOneLot = 40000;
-    let optQuantity = parseInt(optQty) / 25;
-    let futQuantity = parseInt(futQty) / 25;
+    let optQuantity = parseInt(optQty || 0) / 25;
+    let futQuantity = parseInt(futQty || 0) / 25;
     let oneOptLotPrice = 7500;
     let oneFutLotPrice = 65000;
     let calcPercentage = (value, perc) => { 
@@ -392,11 +392,11 @@ export default function App() {
               </div>
               <div className="card-body">
                 <div className="form-floating">
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <label class="form-label">Minimum amount:</label>
                     <span class="text-muted">{getMinAmount()}</span>
                   </div>
-                  <div class="mb-3">
+                  <div>
                     <label class="form-label">Maximum amount:</label>
                     <span class="text-muted">{getMaxAmount()}</span>
                   </div>
