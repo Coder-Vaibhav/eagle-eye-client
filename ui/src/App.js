@@ -97,6 +97,64 @@ export default function App() {
     }
   };
 
+  const formatAmountToRupees = (amount) => {
+    // Convert amount to string and split into integer and decimal parts
+    const [integerPart, decimalPart] = amount.toFixed(2).toString().split(".");
+    // Add commas as thousand separators to the integer part
+    const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Concatenate the integer and decimal parts with the Rupee symbol
+    const formattedAmount = `₹${formattedIntegerPart}.${decimalPart}`;
+    return formattedAmount;
+  };
+
+  const getMinAmount = () => {
+    let minAmount = 0;
+    let optMinAmount = 0;
+    let futMinAmount = 0;
+    let optQuantity = parseInt(optQty) / 25;
+    let futQuantity = parseInt(futQty) / 25;
+    let oneOptLotPrice = 7500;
+    let oneFutLotPrice = 65000;
+    if(transactionMode === "s"){
+      optMinAmount = oneFutLotPrice * optQuantity;
+    }else{
+      optMinAmount = oneOptLotPrice * optQuantity;
+    }
+    futMinAmount = oneFutLotPrice * futQuantity;
+    minAmount = optMinAmount + futMinAmount;
+    return formatAmountToRupees(minAmount);
+  };
+
+  const getMaxAmount = () => {
+    let maxAmount = 0;
+    let optMaxAmount = 0;
+    let futMaxAmount = 0;
+    let optMaxDraForOneLot = 23000;
+    let optMaxDraChangePerLot = 16000;
+    let futMaxDraForOneLot = 40000;
+    let optQuantity = parseInt(optQty) / 25;
+    let futQuantity = parseInt(futQty) / 25;
+    let oneOptLotPrice = 7500;
+    let oneFutLotPrice = 65000;
+    let calcPercentage = (value, perc) => { 
+      if(value <=0){
+        return 0;
+      }
+      return ((value/100)*perc)
+    }
+    let optMaxDra = optMaxDraForOneLot+(optMaxDraChangePerLot*(optQuantity-1));
+    if(transactionMode === "s"){
+      optMaxAmount = oneFutLotPrice * optQuantity;
+      optMaxAmount = optMaxAmount + (optMaxAmount>0 ? calcPercentage(optMaxDra, 65) :0);
+    }else{
+      optMaxAmount = oneOptLotPrice * optQuantity;
+      optMaxAmount = optMaxAmount + (optMaxAmount>0 ? calcPercentage(optMaxDra, 80) :0);
+    }
+    futMaxAmount = (oneFutLotPrice * futQuantity) + (futMaxDraForOneLot * futQuantity);
+    maxAmount = optMaxAmount + futMaxAmount;
+    return formatAmountToRupees(maxAmount);
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       if (e.target.id === 'nameInput') {
@@ -327,6 +385,24 @@ export default function App() {
                 </div>
               </div>
             )}
+
+            <div className="card mb-3 custom-card">
+              <div className="card-header fw-bold">
+                Capital Needed In Account
+              </div>
+              <div className="card-body">
+                <div className="form-floating">
+                  <div class="mb-3">
+                    <label class="form-label">Minimum amount:</label>
+                    <span class="text-muted">{getMinAmount()}</span>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Maximum amount:</label>
+                    <span class="text-muted">{getMaxAmount()}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div className="form-check form-switch">
               <input
