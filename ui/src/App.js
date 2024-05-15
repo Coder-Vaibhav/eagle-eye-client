@@ -224,7 +224,7 @@ export default function App() {
             
             <div className="card mb-3 custom-card">
               <div className="card-header fw-bold">
-                Security
+                Security (NIFTY 50)
               </div>
               <div className="card-body">
                 <div className="form-check form-check-inline">
