@@ -29,6 +29,7 @@ export default function App() {
   const [limitExitPoints, setLimitExitPoints] = useState(40);
   const [optionBuyerItmDistance, setOptionBuyerItmDistance] = useState(0);
   const [optionSellerOtmDistance, setOptionSellerOtmDistance] = useState(0);
+  const [isNextThursdayExpiry, setIsNextThursdayExpiry] = useState(1);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -44,16 +45,17 @@ export default function App() {
         setAccessToken(configjson.ACCESS_TOKEN || "");
         setOptionChecked(configjson.SECURITY.includes("opt"));
         setFutureChecked(configjson.SECURITY.includes("fut"));
-        setOptQty(configjson.OPT_QTY || 0);
-        setFutQty(configjson.FUT_QTY || 0);
+        setOptQty(configjson.OPT_QTY);
+        setFutQty(configjson.FUT_QTY);
         setTransactionMode(configjson.OPTION_TRANSACTION_MODE || "");
-        setActive(configjson.ACTIVE || 0);
+        setActive(configjson.ACTIVE);
         setUpdateDisabled(false);
         setShowDetails(true); // Show details section if data is found
-        setLimitExitActive(configjson.CAN_DO_LIMIT_EXIT || 0);
+        setLimitExitActive(configjson.CAN_DO_LIMIT_EXIT);
         setLimitExitPoints(configjson.LIMIT_EXIT_POINTS || 40);
-        setOptionBuyerItmDistance(configjson.OPTION_BUYER_ITM_DISTANCE || 0);
-        setOptionSellerOtmDistance(configjson.OPTION_SELLER_OTM_DISTANCE || 0);
+        setOptionBuyerItmDistance(configjson.OPTION_BUYER_ITM_DISTANCE);
+        setOptionSellerOtmDistance(configjson.OPTION_SELLER_OTM_DISTANCE);
+        setIsNextThursdayExpiry(configjson.OPTION_IS_NEXT_THURSDAY_EXPIRY);
       } else {
         alert('User not found!');
       }
@@ -65,11 +67,11 @@ export default function App() {
   const handleUpdate = async () => {
     try {
       // Validation for Option Quantity and Future Quantity
-      if (parseInt(optQty) % 25 !== 0) {
+      if (parseInt(optQty) < 0 || parseInt(optQty) % 25 !== 0) {
         alert("Option Quantity must be a multiple of 25.");
         return;
       }
-      if (parseInt(futQty) % 25 !== 0) {
+      if (parseInt(futQty) < 0 || parseInt(futQty) % 25 !== 0) {
         alert("Future Quantity must be a multiple of 25.");
         return;
       }
@@ -88,6 +90,7 @@ export default function App() {
         LIMIT_EXIT_POINTS: parseInt(limitExitPoints),
         OPTION_BUYER_ITM_DISTANCE: parseInt(optionBuyerItmDistance),
         OPTION_SELLER_OTM_DISTANCE: parseInt(optionSellerOtmDistance),
+        OPTION_IS_NEXT_THURSDAY_EXPIRY: parseInt(isNextThursdayExpiry),
         ACTIVE: parseInt(active),
       };
       await axios.post(API_URL, { name, configjson: JSON.stringify(updatedConfig) });
@@ -111,8 +114,8 @@ export default function App() {
     let minAmount = 0;
     let optMinAmount = 0;
     let futMinAmount = 0;
-    let optQuantity = parseInt(optQty || 0) / 25;
-    let futQuantity = parseInt(futQty || 0) / 25;
+    let optQuantity = (parseInt(optQty) >= 25) ? (parseInt(optQty) / 25) : 0;
+    let futQuantity = (parseInt(futQty) >= 25) ? (parseInt(futQty) / 25) : 0;
     let oneOptLotPrice = 7500;
     let oneFutLotPrice = 65000;
     if(transactionMode === "s"){
@@ -121,6 +124,8 @@ export default function App() {
       optMinAmount = oneOptLotPrice * optQuantity;
     }
     futMinAmount = oneFutLotPrice * futQuantity;
+    optMinAmount = optionChecked ? optMinAmount : 0;
+    futMinAmount = futureChecked ? futMinAmount : 0;
     minAmount = optMinAmount + futMinAmount;
     return formatAmountToRupees(minAmount);
   };
@@ -132,8 +137,8 @@ export default function App() {
     let optMaxDraForOneLot = 23000;
     let optMaxDraChangePerLot = 16000;
     let futMaxDraForOneLot = 40000;
-    let optQuantity = parseInt(optQty || 0) / 25;
-    let futQuantity = parseInt(futQty || 0) / 25;
+    let optQuantity = (parseInt(optQty) >= 25) ? (parseInt(optQty) / 25) : 0;
+    let futQuantity = (parseInt(futQty) >= 25) ? (parseInt(futQty) / 25) : 0;
     let oneOptLotPrice = 7500;
     let oneFutLotPrice = 65000;
     let calcPercentage = (value, perc) => { 
@@ -151,6 +156,8 @@ export default function App() {
       optMaxAmount = optMaxAmount + (optMaxAmount>0 ? calcPercentage(optMaxDra, 80) :0);
     }
     futMaxAmount = (oneFutLotPrice * futQuantity) + (futMaxDraForOneLot * futQuantity);
+    optMaxAmount = optionChecked ? optMaxAmount : 0;
+    futMaxAmount = futureChecked ? futMaxAmount : 0;
     maxAmount = optMaxAmount + futMaxAmount;
     return formatAmountToRupees(maxAmount);
   };
@@ -173,7 +180,7 @@ export default function App() {
         </a>
       </nav>
 
-      <div className="container mb-5 mt-3">
+      <div className="container mb-5 mt-4">
         <div className="form-floating mb-3">
           <input
             id="nameInput"
@@ -193,8 +200,8 @@ export default function App() {
         {showDetails && (
           <div id="details" className="mt-4">
             <div className="card mb-3 custom-card">
-              <div className="card-header fw-bold">
-                Dhan Account Details
+              <div className="card-header text-white fw-bold">
+                <h5><i className="bi bi-person-circle me-2"></i>Dhan Account Details</h5>
               </div>
               <div className="card-body">
                 <div className="form-floating mb-3">
@@ -223,8 +230,8 @@ export default function App() {
             </div>
             
             <div className="card mb-3 custom-card">
-              <div className="card-header fw-bold">
-                Security (NIFTY 50)
+              <div className="card-header text-white fw-bold">
+                <h5><i className="bi bi-shield-lock me-2"></i>Security (NIFTY 50)</h5>
               </div>
               <div className="card-body">
                 <div className="form-check form-check-inline">
@@ -252,8 +259,8 @@ export default function App() {
 
             {optionChecked && (
               <div className="card mb-3 custom-card">
-                <div className="card-header fw-bold">
-                  Option Security Details
+                <div className="card-header text-white fw-bold">
+                  <h5><i className="bi bi-cash-stack me-2"></i>Option Security Details</h5>
                 </div>
                 <div className="card-body">
                   <div className="form-floating">
@@ -265,12 +272,13 @@ export default function App() {
                       onChange={(e) => setOptQty(e.target.value)}
                       placeholder="Enter Option Quantity (Multiple of 25)"
                       className="form-control "
+                      min={0}
                     />
                     <label htmlFor="optQtyInput">Quantity</label>
                   </div>
 
                   <div className="card my-3">
-                    <div className="card-header small">
+                    <div className="card-header small bg-secondary text-white px-2 py-1">
                       Transaction Mode
                     </div>
                     <div className="card-body p-2">
@@ -297,6 +305,38 @@ export default function App() {
                           onChange={() => setTransactionMode("s")}
                         />
                         <label htmlFor="sellerRadio" className="form-check-label">Seller</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="card my-3">
+                    <div className="card-header small bg-secondary text-white px-2 py-1">
+                      Thursday Expiry
+                    </div>
+                    <div className="card-body p-2">
+                      <div className="form-check form-check-inline">
+                        <input
+                          type="radio"
+                          id="currentWeekRadio"
+                          className="form-check-input"
+                          value="b"
+                          disabled={!optionChecked}
+                          onChange={() => setIsNextThursdayExpiry(isNextThursdayExpiry === 1 ? 0 : 1)}
+                          checked={isNextThursdayExpiry === 0}
+                        />
+                        <label htmlFor="currentWeekRadio" className="form-check-label">Current week</label>
+                      </div>
+                      <div className="form-check form-check-inline">
+                        <input
+                          type="radio"
+                          id="nextWeekRadio"
+                          className="form-check-input"
+                          value="s"
+                          disabled={!optionChecked}
+                          onChange={() => setIsNextThursdayExpiry(isNextThursdayExpiry === 1 ? 0 : 1)}
+                          checked={isNextThursdayExpiry === 1}
+                        />
+                        <label htmlFor="nextWeekRadio" className="form-check-label">Next week</label>
                       </div>
                     </div>
                   </div>
@@ -366,8 +406,8 @@ export default function App() {
 
             {futureChecked && (
               <div className="card mb-3 custom-card">
-                <div className="card-header fw-bold">
-                  Future Security Details
+                <div className="card-header text-white fw-bold">
+                  <h5><i className="bi bi-cash-stack me-2"></i>Future Security Details</h5>
                 </div>
                 <div className="card-body">
                   <div className="form-floating">
@@ -378,7 +418,8 @@ export default function App() {
                       disabled={!futureChecked}
                       onChange={(e) => setFutQty(e.target.value)}
                       placeholder="Enter Future Quantity"
-                      className="form-control "
+                      className="form-control"
+                      min={0}
                     />
                     <label htmlFor="futQtyInput">Quantity</label>
                   </div>
@@ -387,24 +428,24 @@ export default function App() {
             )}
 
             <div className="card mb-3 custom-card">
-              <div className="card-header fw-bold">
-                Capital Needed In Account
+              <div className="card-header text-white fw-bold">
+                <h5><i className="bi bi-wallet2 me-2"></i> Minimum Margin Requirement in Account</h5>
               </div>
-              <div className="card-body">
+              <div className="card-body pb-2 bg-black">
                 <div className="form-floating">
-                  <div className="mb-2">
-                    <label className="form-label">Minimum amount: </label>
-                    <span className="fw-bold">{getMinAmount()}</span>
+                  <div className="mb-1">
+                    <label className="form-label text-white" style={{width: "235px"}}>Amount without max-drawdown: </label>
+                    <span className="fw-bold text-primary"> {getMinAmount()}</span>
                   </div>
-                  <div className="mb-0">
-                    <label className="form-label">Maximum amount: </label>
-                    <span className="fw-bold">{getMaxAmount()}</span>
+                  <div>
+                    <label className="form-label text-white" style={{width: "235px"}}>Amount with max-drawdown: </label>
+                    <span className="fw-bold text-success"> {getMaxAmount()}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="form-check form-switch">
+            <div className="form-check form-switch mt-4">
               <input
                 type="checkbox"
                 id="activeSwitch"
@@ -414,7 +455,7 @@ export default function App() {
               />
               <label htmlFor="activeSwitch" className="form-check-label text-warning fw-bold">Trading Engine</label>
             </div>
-            <button onClick={handleUpdate} disabled={updateDisabled} className="btn btn-success btn-lg mt-4 mb-5">Update</button>
+            <button onClick={handleUpdate} disabled={updateDisabled} className="btn btn-success btn-lg mt-5 mb-5">Update</button>
           </div>
         )}
       </div>
