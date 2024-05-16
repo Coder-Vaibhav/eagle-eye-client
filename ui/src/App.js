@@ -66,6 +66,10 @@ export default function App() {
 
   const handleUpdate = async () => {
     try {
+      if (parseInt(limitExitPoints) < 30) {
+        alert("Limit exit must be atleast 30 points.");
+        return;
+      }
       // Validation for Option Quantity and Future Quantity
       if (parseInt(optQty) < 0 || parseInt(optQty) % 25 !== 0) {
         alert("Option Quantity must be a multiple of 25.");
