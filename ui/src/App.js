@@ -231,19 +231,9 @@ export default function App() {
             
             <div className="card mb-3 custom-card">
               <div className="card-header text-white fw-bold">
-                <h5><i className="bi bi-shield-lock me-2"></i>Security (NIFTY 50)</h5>
+                <h5><i className="bi bi-shield-lock me-2"></i>Security - Nifty 50</h5>
               </div>
               <div className="card-body">
-                <div className="form-check form-check-inline">
-                  <input
-                    type="checkbox"
-                    id="optionCheckbox"
-                    className="form-check-input"
-                    checked={optionChecked}
-                    onChange={() => setOptionChecked(!optionChecked)}
-                  />
-                  <label htmlFor="optionCheckbox" className="form-check-label">Option</label>
-                </div>
                 <div className="form-check form-check-inline">
                   <input
                     type="checkbox"
@@ -254,9 +244,42 @@ export default function App() {
                   />
                   <label htmlFor="futureCheckbox" className="form-check-label">Future</label>
                 </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="checkbox"
+                    id="optionCheckbox"
+                    className="form-check-input"
+                    checked={optionChecked}
+                    onChange={() => setOptionChecked(!optionChecked)}
+                  />
+                  <label htmlFor="optionCheckbox" className="form-check-label">Option</label>
+                </div>
               </div>
             </div>
 
+            {futureChecked && (
+              <div className="card mb-3 custom-card">
+                <div className="card-header text-white fw-bold">
+                  <h5><i className="bi bi-cash-stack me-2"></i>Future Security Details</h5>
+                </div>
+                <div className="card-body">
+                  <div className="form-floating">
+                    <input
+                      id="futQtyInput"
+                      type="number"
+                      value={futQty}
+                      disabled={!futureChecked}
+                      onChange={(e) => setFutQty(e.target.value)}
+                      placeholder="Enter Future Quantity"
+                      className="form-control"
+                      min={0}
+                    />
+                    <label htmlFor="futQtyInput">Quantity</label>
+                  </div>
+                </div>
+              </div>
+            )}
+  
             {optionChecked && (
               <div className="card mb-3 custom-card">
                 <div className="card-header text-white fw-bold">
@@ -343,7 +366,7 @@ export default function App() {
 
                   {transactionMode === "b" && (
                     <>
-                      <label htmlFor="optionBuyerItmDistanceInput" className="form-label mb-0 small">ITM Distance From Current Spot: <span className="fw-bold">{optionBuyerItmDistance} Points</span></label>
+                      <label htmlFor="optionBuyerItmDistanceInput" className="form-label mb-0 ">ITM Distance From Current Spot: <span className="fw-bold">{optionBuyerItmDistance} Points</span></label>
                       <input 
                         type="range" 
                         className="form-range" 
@@ -359,7 +382,7 @@ export default function App() {
                   )}
                   {transactionMode === "s" && (
                     <>
-                      <label htmlFor="optionSellerOtmDistanceInput" className="form-label mb-0 small">OTM Distance From Current Spot: <span className="fw-bold">{optionSellerOtmDistance} Points</span></label>
+                      <label htmlFor="optionSellerOtmDistanceInput" className="form-label mb-0 ">OTM Distance From Current Spot: <span className="fw-bold">{optionSellerOtmDistance} Points</span></label>
                       <input 
                         type="range" 
                         className="form-range" 
@@ -404,41 +427,18 @@ export default function App() {
               </div>
             )}
 
-            {futureChecked && (
-              <div className="card mb-3 custom-card">
-                <div className="card-header text-white fw-bold">
-                  <h5><i className="bi bi-cash-stack me-2"></i>Future Security Details</h5>
-                </div>
-                <div className="card-body">
-                  <div className="form-floating">
-                    <input
-                      id="futQtyInput"
-                      type="number"
-                      value={futQty}
-                      disabled={!futureChecked}
-                      onChange={(e) => setFutQty(e.target.value)}
-                      placeholder="Enter Future Quantity"
-                      className="form-control"
-                      min={0}
-                    />
-                    <label htmlFor="futQtyInput">Quantity</label>
-                  </div>
-                </div>
-              </div>
-            )}
-
             <div className="card mb-3 custom-card">
               <div className="card-header text-white fw-bold">
-                <h5><i className="bi bi-wallet2 me-2"></i> Minimum Margin Requirement in Account</h5>
+                <h5><i className="bi bi-wallet2 me-2"></i>Minimum Margin Requirement in Account</h5>
               </div>
               <div className="card-body pb-2 bg-black">
                 <div className="form-floating">
                   <div className="mb-1">
-                    <label className="form-label text-white" style={{width: "235px"}}>Amount without max-drawdown: </label>
+                    <label className="form-label text-white" style={{width: "242px"}}>Amount without max-drawdown: </label>
                     <span className="fw-bold text-primary"> {getMinAmount()}</span>
                   </div>
                   <div>
-                    <label className="form-label text-white" style={{width: "235px"}}>Amount with max-drawdown: </label>
+                    <label className="form-label text-white" style={{width: "242px"}}>Amount with max-drawdown: </label>
                     <span className="fw-bold text-success"> {getMaxAmount()}</span>
                   </div>
                 </div>
