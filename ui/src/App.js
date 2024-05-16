@@ -332,6 +332,39 @@ export default function App() {
                     </div>
                   </div>
 
+                  {transactionMode === "b" && (
+                    <>
+                      <label htmlFor="optionBuyerItmDistanceInput" className="form-label mb-0 text-white">ITM Distance From Current Spot: <span className="fw-bold">{optionBuyerItmDistance} Points</span></label>
+                      <input 
+                        type="range" 
+                        className="form-range" 
+                        min="-350" 
+                        disabled={!optionChecked || transactionMode === "s"}
+                        max="350" 
+                        step="50" 
+                        id="optionBuyerItmDistanceInput" 
+                        value={optionBuyerItmDistance}
+                        onChange={(e) => setOptionBuyerItmDistance(e.target.value)}
+                        />
+                    </>
+                  )}
+                  {transactionMode === "s" && (
+                    <>
+                      <label htmlFor="optionSellerOtmDistanceInput" className="form-label mb-0 text-white">OTM Distance From Current Spot: <span className="fw-bold">{optionSellerOtmDistance} Points</span></label>
+                      <input 
+                        type="range" 
+                        className="form-range" 
+                        min="-350" 
+                        disabled={!optionChecked || transactionMode === "b"}
+                        max="350" 
+                        step="50" 
+                        id="optionSellerOtmDistanceInput" 
+                        value={optionSellerOtmDistance}
+                        onChange={(e) => setOptionSellerOtmDistance(e.target.value)}
+                        />
+                    </>
+                  )}
+
                   <div className="card my-3">
                     <div className="card-header small bg-secondary text-white px-2 py-1">
                       Thursday Expiry
@@ -363,39 +396,6 @@ export default function App() {
                       </div>
                     </div>
                   </div>
-
-                  {transactionMode === "b" && (
-                    <>
-                      <label htmlFor="optionBuyerItmDistanceInput" className="form-label mb-0 ">ITM Distance From Current Spot: <span className="fw-bold">{optionBuyerItmDistance} Points</span></label>
-                      <input 
-                        type="range" 
-                        className="form-range" 
-                        min="-350" 
-                        disabled={!optionChecked || transactionMode === "s"}
-                        max="350" 
-                        step="50" 
-                        id="optionBuyerItmDistanceInput" 
-                        value={optionBuyerItmDistance}
-                        onChange={(e) => setOptionBuyerItmDistance(e.target.value)}
-                        />
-                    </>
-                  )}
-                  {transactionMode === "s" && (
-                    <>
-                      <label htmlFor="optionSellerOtmDistanceInput" className="form-label mb-0 ">OTM Distance From Current Spot: <span className="fw-bold">{optionSellerOtmDistance} Points</span></label>
-                      <input 
-                        type="range" 
-                        className="form-range" 
-                        min="-350" 
-                        disabled={!optionChecked || transactionMode === "b"}
-                        max="350" 
-                        step="50" 
-                        id="optionSellerOtmDistanceInput" 
-                        value={optionSellerOtmDistance}
-                        onChange={(e) => setOptionSellerOtmDistance(e.target.value)}
-                        />
-                    </>
-                  )}
                   
                   <div className="input-group mt-3">
                     <span className="input-group-text bg-secondary">
@@ -429,7 +429,7 @@ export default function App() {
 
             <div className="card mb-3 custom-card">
               <div className="card-header text-white fw-bold">
-                <h5><i className="bi bi-wallet2 me-2"></i>Minimum Margin Requirement in Account</h5>
+                <h5><i className="bi bi-wallet2 me-2"></i>Minimum Margin Requirement</h5>
               </div>
               <div className="card-body pb-2 bg-black">
                 <div className="form-floating">
