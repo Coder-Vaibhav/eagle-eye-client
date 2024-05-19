@@ -6,6 +6,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 // import {RandomDots} from "./components/RandomDots";
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ClipLoader } from 'react-spinners';
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const darkTheme = createTheme({
   palette: {
@@ -14,6 +17,7 @@ const darkTheme = createTheme({
 });
 
 export default function App() {
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
   const [clientId, setClientId] = useState('');
   const [accessToken, setAccessToken] = useState('');
@@ -37,6 +41,7 @@ export default function App() {
 
   const handleGetJson = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(API_URL+"/"+name);
       const foundItem = data.find(item => item.name === name);
       if (foundItem) {
@@ -59,8 +64,12 @@ export default function App() {
       } else {
         alert('User not found!');
       }
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error fetching JSON:', error);
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -178,11 +187,7 @@ export default function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       {/* <RandomDots /> */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center">
-        <a className="navbar-brand brand-name text-info font-effect-fire" href="/">
-          Eagle Eye Algo
-        </a>
-      </nav>
+      <Navbar />
 
       <div className="container mb-5 mt-4">
         <div className="form-floating mb-3">
@@ -200,6 +205,10 @@ export default function App() {
         <button onClick={handleGetJson} disabled={showDetails} className="btn btn-outline-success">
           Get Details
         </button>
+
+        {loading && (<div className="mt-5">
+          <ClipLoader color="#0000ff" size={100} />
+        </div>)}
 
         {showDetails && (
           <div id="details" className="mt-4">
@@ -464,9 +473,7 @@ export default function App() {
         )}
       </div>
 
-      <footer className="footer bg-dark text-center">
-        <span className="text-white small">Copyright &copy; 2024 Eagle Eye Algo <br/>Developed with ❤️ by Vaibhav D. Raut.</span>
-      </footer>
+      <Footer />
       
     </ThemeProvider>
   );
