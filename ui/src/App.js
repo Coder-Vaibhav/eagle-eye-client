@@ -149,7 +149,7 @@ export default function App() {
     let futMaxAmount = 0;
     let optMaxDraForOneLot = 23000;
     let optMaxDraChangePerLot = 16000;
-    let futMaxDraForOneLot = 40000;
+    let futMaxDraForOneLot = 37500;
     let optQuantity = (parseInt(optQty) >= 25) ? (parseInt(optQty) / 25) : 0;
     let futQuantity = (parseInt(futQty) >= 25) ? (parseInt(futQty) / 25) : 0;
     let oneOptLotPrice = 7500;
