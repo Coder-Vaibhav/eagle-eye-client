@@ -378,7 +378,7 @@ export default function App() {
                     </>
                   )}
 
-                  <div className="card my-3">
+                  <div className="card mb-3 mt-2">
                     <div className="card-header small bg-secondary text-white px-2 py-1">
                       Thursday Expiry
                     </div>
