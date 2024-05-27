@@ -175,6 +175,30 @@ export default function App() {
     return formatAmountToRupees(maxAmount);
   };
 
+  const getFutTotalCharges = () => {
+    let oneLotCharges = 140;
+    let percentDiff = 79.77;
+    let charges = 0
+    let futQuantity = (parseInt(futQty) >= 25) ? (parseInt(futQty) / 25) : 0;
+    if(futQuantity <= 0){
+      return formatAmountToRupees(charges);
+    }
+    charges = ((oneLotCharges/100)*(percentDiff*(futQuantity-1))) + oneLotCharges;
+    return formatAmountToRupees(charges);
+  };
+
+  const getOptTotalCharges = () => {
+    let oneLotCharges = 49.2;
+    let percentDiff = 44.72;
+    let charges = 0
+    let optQuantity = (parseInt(optQty) >= 25) ? (parseInt(optQty) / 25) : 0;
+    if(optQuantity <= 0){
+      return formatAmountToRupees(charges);
+    }
+    charges = ((oneLotCharges/100)*(percentDiff*(optQuantity-1))) + oneLotCharges;
+    return formatAmountToRupees(charges);
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       if (e.target.id === 'nameInput') {
@@ -288,6 +312,7 @@ export default function App() {
                       min={0}
                     />
                     <label htmlFor="futQtyInput">Quantity</label>
+                    <span className="text-muted small px-1 py-0 m-0">Total Possible Charges: {getFutTotalCharges()}</span>
                   </div>
                 </div>
               </div>
@@ -310,6 +335,7 @@ export default function App() {
                       className="form-control "
                       min={0}
                     />
+                    <span className="text-muted small px-1 py-0 m-0">Total Possible Charges: {getOptTotalCharges()}</span>
                     <label htmlFor="optQtyInput">Quantity</label>
                   </div>
 
