@@ -33,7 +33,8 @@ export default function App() {
   const [limitExitPoints, setLimitExitPoints] = useState(40);
   const [optionBuyerItmDistance, setOptionBuyerItmDistance] = useState(0);
   const [optionSellerOtmDistance, setOptionSellerOtmDistance] = useState(0);
-  const [isNextThursdayExpiry, setIsNextThursdayExpiry] = useState(1);
+  const [thursdayExpiry, setThursdayExpiry] = useState(2);
+  const [combOfFutAndOpt, setCombOfFutAndOpt] = useState(0);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -42,6 +43,10 @@ export default function App() {
   const handleGetJson = async () => {
     try {
       setLoading(true);
+      if(!name){
+        alert('Please enter user name.');
+        return;
+      }
       const { data } = await axios.get(API_URL+"/"+name);
       const foundItem = data.find(item => item.name === name);
       if (foundItem) {
@@ -60,7 +65,8 @@ export default function App() {
         setLimitExitPoints(configjson.LIMIT_EXIT_POINTS || 40);
         setOptionBuyerItmDistance(configjson.OPTION_BUYER_ITM_DISTANCE);
         setOptionSellerOtmDistance(configjson.OPTION_SELLER_OTM_DISTANCE);
-        setIsNextThursdayExpiry(configjson.OPTION_IS_NEXT_THURSDAY_EXPIRY);
+        setThursdayExpiry(configjson.OPTION_THURSDAY_EXPIRY);
+        setCombOfFutAndOpt(configjson.COMBINATION_OF_FUT_AND_OPT);
       } else {
         alert('User not found!');
       }
@@ -103,7 +109,8 @@ export default function App() {
         LIMIT_EXIT_POINTS: parseInt(limitExitPoints),
         OPTION_BUYER_ITM_DISTANCE: parseInt(optionBuyerItmDistance),
         OPTION_SELLER_OTM_DISTANCE: parseInt(optionSellerOtmDistance),
-        OPTION_IS_NEXT_THURSDAY_EXPIRY: parseInt(isNextThursdayExpiry),
+        OPTION_THURSDAY_EXPIRY: parseInt(thursdayExpiry),
+        COMBINATION_OF_FUT_AND_OPT: parseInt(combOfFutAndOpt) >= 0 ? parseInt(combOfFutAndOpt) : 3,
         ACTIVE: parseInt(active),
       };
       await axios.post(API_URL, { name, configjson: JSON.stringify(updatedConfig) });
@@ -207,6 +214,46 @@ export default function App() {
     }
   };
 
+  const OnFutureS1Checked = () => {
+    let oldcombOfFutAndOpt = combOfFutAndOpt;
+    let newcombOfFutAndOpt = combOfFutAndOpt === 1 ? 2 : 0;
+    if(oldcombOfFutAndOpt === 0){
+      newcombOfFutAndOpt = 3;
+    }else if(oldcombOfFutAndOpt === 2){
+      newcombOfFutAndOpt = 1;
+    }
+    setCombOfFutAndOpt(newcombOfFutAndOpt);
+    setFutureChecked(newcombOfFutAndOpt === 0 || newcombOfFutAndOpt === 1 || newcombOfFutAndOpt === 2);
+  };
+
+  const OnOptionS1Checked = () => {
+    let oldcombOfFutAndOpt = combOfFutAndOpt;
+    let newcombOfFutAndOpt = combOfFutAndOpt === 0 ? 2 : 1;
+    if(oldcombOfFutAndOpt === 1){
+      newcombOfFutAndOpt = 3;
+    }else if(oldcombOfFutAndOpt === 2){
+      newcombOfFutAndOpt = 0;
+    }
+    setCombOfFutAndOpt(newcombOfFutAndOpt);
+    setFutureChecked(newcombOfFutAndOpt === 0 || newcombOfFutAndOpt === 1 || newcombOfFutAndOpt === 2);
+    if(newcombOfFutAndOpt === 1 || newcombOfFutAndOpt === 2){
+      setOptionChecked(false);
+    }
+  };
+
+  const OnOptionS2Checked = () => {
+    setOptionChecked(!optionChecked);
+    if(!optionChecked){
+      if(combOfFutAndOpt === 1){
+        setCombOfFutAndOpt(3);
+        setFutureChecked(false);
+      }else if(combOfFutAndOpt === 2){
+        setCombOfFutAndOpt(0);
+        setFutureChecked(true);
+      }
+    }
+  };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -276,10 +323,20 @@ export default function App() {
                     type="checkbox"
                     id="futureCheckbox"
                     className="form-check-input"
-                    checked={futureChecked}
-                    onChange={() => setFutureChecked(!futureChecked)}
+                    checked={futureChecked && (combOfFutAndOpt === 0 || combOfFutAndOpt === 2)}
+                    onChange={OnFutureS1Checked}
                   />
-                  <label htmlFor="futureCheckbox" className="form-check-label">Future</label>
+                  <label htmlFor="futureCheckbox" className="form-check-label">Future (S1)</label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    type="checkbox"
+                    id="optionS1Checkbox"
+                    className="form-check-input"
+                    checked={futureChecked && (combOfFutAndOpt === 1 || combOfFutAndOpt === 2)}
+                    onChange={OnOptionS1Checked}
+                  />
+                  <label htmlFor="optionS1Checkbox" className="form-check-label">Option (S1)</label>
                 </div>
                 <div className="form-check form-check-inline">
                   <input
@@ -287,14 +344,14 @@ export default function App() {
                     id="optionCheckbox"
                     className="form-check-input"
                     checked={optionChecked}
-                    onChange={() => setOptionChecked(!optionChecked)}
+                    onChange={OnOptionS2Checked}
                   />
-                  <label htmlFor="optionCheckbox" className="form-check-label">Option</label>
+                  <label htmlFor="optionCheckbox" className="form-check-label">Option (S2)</label>
                 </div>
               </div>
             </div>
 
-            {futureChecked && (
+            {futureChecked && (combOfFutAndOpt === 0 || combOfFutAndOpt === 2) && (
               <div className="card mb-3 custom-card">
                 <div className="card-header text-white fw-bold">
                   <h5><i className="bi bi-cash-stack me-2"></i>Future Security Details</h5>
@@ -318,7 +375,7 @@ export default function App() {
               </div>
             )}
   
-            {optionChecked && (
+            {(optionChecked || combOfFutAndOpt === 1 || combOfFutAndOpt === 2) && (
               <div className="card mb-3 custom-card">
                 <div className="card-header text-white fw-bold">
                   <h5><i className="bi bi-cash-stack me-2"></i>Option Security Details</h5>
@@ -329,7 +386,6 @@ export default function App() {
                       id="optQtyInput"
                       type="number"
                       value={optQty}
-                      disabled={!optionChecked}
                       onChange={(e) => setOptQty(e.target.value)}
                       placeholder="Enter Option Quantity (Multiple of 25)"
                       className="form-control "
@@ -350,7 +406,6 @@ export default function App() {
                           id="buyerRadio"
                           className="form-check-input"
                           value="b"
-                          disabled={!optionChecked}
                           checked={transactionMode === "b"}
                           onChange={() => setTransactionMode("b")}
                         />
@@ -362,7 +417,6 @@ export default function App() {
                           id="sellerRadio"
                           className="form-check-input"
                           value="s"
-                          disabled={!optionChecked}
                           checked={transactionMode === "s"}
                           onChange={() => setTransactionMode("s")}
                         />
@@ -378,7 +432,7 @@ export default function App() {
                         type="range" 
                         className="form-range" 
                         min="-350" 
-                        disabled={!optionChecked || transactionMode === "s"}
+                        disabled={transactionMode === "s"}
                         max="350" 
                         step="50" 
                         id="optionBuyerItmDistanceInput" 
@@ -394,7 +448,7 @@ export default function App() {
                         type="range" 
                         className="form-range" 
                         min="-350" 
-                        disabled={!optionChecked || transactionMode === "b"}
+                        disabled={ transactionMode === "b"}
                         max="350" 
                         step="50" 
                         id="optionSellerOtmDistanceInput" 
@@ -415,9 +469,8 @@ export default function App() {
                           id="currentWeekRadio"
                           className="form-check-input"
                           value="b"
-                          disabled={!optionChecked}
-                          onChange={() => setIsNextThursdayExpiry(isNextThursdayExpiry === 1 ? 0 : 1)}
-                          checked={isNextThursdayExpiry === 0}
+                          onChange={() => setThursdayExpiry(0)}
+                          checked={thursdayExpiry === 0}
                         />
                         <label htmlFor="currentWeekRadio" className="form-check-label">Current week</label>
                       </div>
@@ -427,11 +480,43 @@ export default function App() {
                           id="nextWeekRadio"
                           className="form-check-input"
                           value="s"
-                          disabled={!optionChecked}
-                          onChange={() => setIsNextThursdayExpiry(isNextThursdayExpiry === 1 ? 0 : 1)}
-                          checked={isNextThursdayExpiry === 1}
+                          onChange={() => setThursdayExpiry(1)}
+                          checked={thursdayExpiry === 1}
                         />
                         <label htmlFor="nextWeekRadio" className="form-check-label">Next week</label>
+                      </div>
+                      <div className="form-check form-check-inline">
+                        <input
+                          type="radio"
+                          id="2xnextWeekRadio"
+                          className="form-check-input"
+                          value="s"
+                          onChange={() => setThursdayExpiry(2)}
+                          checked={thursdayExpiry === 2}
+                        />
+                        <label htmlFor="2xnextWeekRadio" className="form-check-label">2xNext week</label>
+                      </div>
+                      <div className="form-check form-check-inline">
+                        <input
+                          type="radio"
+                          id="3xnextWeekRadio"
+                          className="form-check-input"
+                          value="s"
+                          onChange={() => setThursdayExpiry(3)}
+                          checked={thursdayExpiry === 3}
+                        />
+                        <label htmlFor="3xnextWeekRadio" className="form-check-label">3xNext week</label>
+                      </div>
+                      <div className="form-check form-check-inline">
+                        <input
+                          type="radio"
+                          id="4xnextWeekRadio"
+                          className="form-check-input"
+                          value="s"
+                          onChange={() => setThursdayExpiry(4)}
+                          checked={thursdayExpiry === 4}
+                        />
+                        <label htmlFor="4xnextWeekRadio" className="form-check-label">4xNext week</label>
                       </div>
                     </div>
                   </div>
@@ -443,7 +528,6 @@ export default function App() {
                           type="checkbox"
                           id="limitExitActiveSwitch"
                           className="form-check-input"
-                          disabled={!optionChecked}
                           checked={limitExitActive === 1}
                           onChange={() => setLimitExitActive(limitExitActive === 1 ? 0 : 1)}
                         />
@@ -454,7 +538,7 @@ export default function App() {
                         id="limitExitPointsInput"
                         type="number"
                         value={limitExitPoints}
-                        disabled={limitExitActive !== 1 || !optionChecked}
+                        disabled={limitExitActive !== 1}
                         onChange={(e) => setLimitExitPoints(e.target.value)}
                         placeholder="Limit Exit Points"
                         className="form-control "
