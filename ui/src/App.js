@@ -144,8 +144,8 @@ export default function App() {
       optMinAmount = oneOptLotPrice * optQuantity;
     }
     futMinAmount = oneFutLotPrice * futQuantity;
-    optMinAmount = optionChecked || (futureChecked && (newcombOfFutAndOpt === 1 || newcombOfFutAndOpt === 2)) ? optMinAmount : 0;
-    futMinAmount = futureChecked && (newcombOfFutAndOpt === 0 || newcombOfFutAndOpt === 2) ? futMinAmount : 0;
+    optMinAmount = optionChecked || (futureChecked && (combOfFutAndOpt === 1 || combOfFutAndOpt === 2)) ? optMinAmount : 0;
+    futMinAmount = futureChecked && (combOfFutAndOpt === 0 || combOfFutAndOpt === 2) ? futMinAmount : 0;
     minAmount = optMinAmount + futMinAmount;
     return formatAmountToRupees(minAmount);
   };
@@ -182,8 +182,8 @@ export default function App() {
       optMaxAmount = optMaxAmount + (optMaxAmount>0 ? calcPercentage(optMaxDra, 80) :0);
     }
     futMaxAmount = (oneFutLotPrice * futQuantity) + (futMaxDraForOneLot * futQuantity);
-    optMaxAmount = optionChecked || (futureChecked && (newcombOfFutAndOpt === 1 || newcombOfFutAndOpt === 2)) ? optMaxAmount : 0;
-    futMaxAmount = futureChecked && (newcombOfFutAndOpt === 0 || newcombOfFutAndOpt === 2) ? futMaxAmount : 0;
+    optMaxAmount = optionChecked || (futureChecked && (combOfFutAndOpt === 1 || combOfFutAndOpt === 2)) ? optMaxAmount : 0;
+    futMaxAmount = futureChecked && (combOfFutAndOpt === 0 || combOfFutAndOpt === 2) ? futMaxAmount : 0;
     maxAmount = optMaxAmount + futMaxAmount;
     return formatAmountToRupees(maxAmount);
   };
