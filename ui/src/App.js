@@ -136,7 +136,7 @@ export default function App() {
     let futMinAmount = 0;
     let optQuantity = (parseInt(optQty) >= 25) ? (parseInt(optQty) / 25) : 0;
     let futQuantity = (parseInt(futQty) >= 25) ? (parseInt(futQty) / 25) : 0;
-    let oneOptLotPrice = 7500;
+    let oneOptLotPrice = 12500;
     let oneFutLotPrice = 65000;
     if(transactionMode === "s"){
       optMinAmount = oneFutLotPrice * optQuantity;
@@ -144,8 +144,8 @@ export default function App() {
       optMinAmount = oneOptLotPrice * optQuantity;
     }
     futMinAmount = oneFutLotPrice * futQuantity;
-    optMinAmount = optionChecked ? optMinAmount : 0;
-    futMinAmount = futureChecked ? futMinAmount : 0;
+    optMinAmount = optionChecked || (futureChecked && (newcombOfFutAndOpt === 1 || newcombOfFutAndOpt === 2)) ? optMinAmount : 0;
+    futMinAmount = futureChecked && (newcombOfFutAndOpt === 0 || newcombOfFutAndOpt === 2) ? futMinAmount : 0;
     minAmount = optMinAmount + futMinAmount;
     return formatAmountToRupees(minAmount);
   };
@@ -156,16 +156,22 @@ export default function App() {
     let futMaxAmount = 0;
     let optMaxDraForOneLot = 23000;
     let optMaxDraChangePerLot = 16000;
-    let futMaxDraForOneLot = 37500;
+    let optMaxDraForOneLotS1 = 26560;
+    let optMaxDraChangePerLotS1 = 18470;
+    let futMaxDraForOneLot = 35000;
     let optQuantity = (parseInt(optQty) >= 25) ? (parseInt(optQty) / 25) : 0;
     let futQuantity = (parseInt(futQty) >= 25) ? (parseInt(futQty) / 25) : 0;
-    let oneOptLotPrice = 7500;
+    let oneOptLotPrice = 12500;
     let oneFutLotPrice = 65000;
     let calcPercentage = (value, perc) => { 
       if(value <=0){
         return 0;
       }
       return ((value/100)*perc)
+    }
+    if(optionChecked === false && (combOfFutAndOpt === 1 || combOfFutAndOpt === 2)){
+      optMaxDraForOneLot = optMaxDraForOneLotS1;
+      optMaxDraChangePerLot = optMaxDraChangePerLotS1;
     }
     let optMaxDra = optMaxDraForOneLot+(optMaxDraChangePerLot*(optQuantity-1));
     if(transactionMode === "s"){
@@ -176,8 +182,8 @@ export default function App() {
       optMaxAmount = optMaxAmount + (optMaxAmount>0 ? calcPercentage(optMaxDra, 80) :0);
     }
     futMaxAmount = (oneFutLotPrice * futQuantity) + (futMaxDraForOneLot * futQuantity);
-    optMaxAmount = optionChecked ? optMaxAmount : 0;
-    futMaxAmount = futureChecked ? futMaxAmount : 0;
+    optMaxAmount = optionChecked || (futureChecked && (newcombOfFutAndOpt === 1 || newcombOfFutAndOpt === 2)) ? optMaxAmount : 0;
+    futMaxAmount = futureChecked && (newcombOfFutAndOpt === 0 || newcombOfFutAndOpt === 2) ? futMaxAmount : 0;
     maxAmount = optMaxAmount + futMaxAmount;
     return formatAmountToRupees(maxAmount);
   };
