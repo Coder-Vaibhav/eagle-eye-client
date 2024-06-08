@@ -291,7 +291,7 @@ export default function App() {
           <div id="details" className="mt-4">
             <div className="card mb-3 custom-card">
               <div className="card-header text-white fw-bold">
-                <h5><i className="bi bi-person-circle me-2"></i>Dhan Account Details</h5>
+                <h5 className="m-0"><i className="bi bi-person-circle me-2"></i>Dhan Account Details</h5>
               </div>
               <div className="card-body">
                 <div className="form-floating mb-3">
@@ -321,7 +321,7 @@ export default function App() {
             
             <div className="card mb-3 custom-card">
               <div className="card-header text-white fw-bold">
-                <h5><i className="bi bi-shield-lock me-2"></i>Security - Nifty 50</h5>
+                <h5 className="m-0"><i className="bi bi-shield-lock me-2"></i>Security - Nifty 50</h5>
               </div>
               <div className="card-body">
                 <div className="form-check form-check-inline">
@@ -360,7 +360,7 @@ export default function App() {
             {futureChecked && (combOfFutAndOpt === 0 || combOfFutAndOpt === 2) && (
               <div className="card mb-3 custom-card">
                 <div className="card-header text-white fw-bold">
-                  <h5><i className="bi bi-cash-stack me-2"></i>Future Security Details</h5>
+                  <h5 className="m-0"><i className="bi bi-cash-stack me-2"></i>Future Security Details</h5>
                 </div>
                 <div className="card-body">
                   <div className="form-floating">
@@ -384,7 +384,7 @@ export default function App() {
             {(optionChecked || combOfFutAndOpt === 1 || combOfFutAndOpt === 2) && (
               <div className="card mb-3 custom-card">
                 <div className="card-header text-white fw-bold">
-                  <h5><i className="bi bi-cash-stack me-2"></i>Option Security Details</h5>
+                  <h5 className="m-0"><i className="bi bi-cash-stack me-2"></i>Option {futureChecked && (combOfFutAndOpt === 1 || combOfFutAndOpt === 2)? "(S1)": "(S2)"} Security Details</h5>
                 </div>
                 <div className="card-body">
                   <div className="form-floating">
@@ -558,7 +558,10 @@ export default function App() {
 
             <div className="card mb-3 custom-card">
               <div className="card-header text-white fw-bold">
-                <h5><i className="bi bi-wallet2 me-2"></i>Minimum Margin Requirement</h5>
+                <h5 className="m-0"><i className="bi bi-wallet2 me-2"></i>Minimum Margin Requirement</h5>
+                <div style={{margin: "0px 0px 0px 28px", lineHeight: "0.9"}} className="mt-1">
+                  <small className="text-white-50 fw-normal col-10">Depends on expiration and ITM distance; currently showing with 0 ITM distance and expiry current week.</small>
+                </div>
               </div>
               <div className="card-body pb-2 bg-black">
                 <div className="form-floating">
