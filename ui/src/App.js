@@ -136,7 +136,7 @@ export default function App() {
     let futMinAmount = 0;
     let optQuantity = (parseInt(optQty) >= 25) ? (parseInt(optQty) / 25) : 0;
     let futQuantity = (parseInt(futQty) >= 25) ? (parseInt(futQty) / 25) : 0;
-    let oneOptLotPrice = 12500;
+    let oneOptLotPrice = 6250;
     let oneFutLotPrice = 65000;
     if(transactionMode === "s"){
       optMinAmount = oneFutLotPrice * optQuantity;
@@ -161,7 +161,7 @@ export default function App() {
     let futMaxDraForOneLot = 35000;
     let optQuantity = (parseInt(optQty) >= 25) ? (parseInt(optQty) / 25) : 0;
     let futQuantity = (parseInt(futQty) >= 25) ? (parseInt(futQty) / 25) : 0;
-    let oneOptLotPrice = 12500;
+    let oneOptLotPrice = 6250;
     let oneFutLotPrice = 65000;
     let calcPercentage = (value, perc) => { 
       if(value <=0){
